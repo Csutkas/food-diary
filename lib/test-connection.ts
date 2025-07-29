@@ -12,7 +12,7 @@ async function testConnection() {
     });
 
     const authClient = await auth.getClient();
-    const sheets = google.sheets({ version: "v4", auth: authClient });
+    const sheets = google.sheets({ version: "v4", auth: auth });
 
     // Test basic read access
     const response = await sheets.spreadsheets.get({
@@ -24,10 +24,10 @@ async function testConnection() {
     console.log("Sheet ID:", response.data.spreadsheetId);
 
     return true;
-  } catch (error) {
+  } catch (error: any) {
     console.error("❌ Connection failed:", error.message);
 
-    if (error.message.includes("permission")) {
+    if (error.message?.includes("permission")) {
       console.log("\n🔧 Fix: Share your Google Sheet with this email:");
       console.log(`   ${process.env.GOOGLE_CLIENT_EMAIL}`);
     }
