@@ -162,74 +162,87 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="container mx-auto px-4 py-8">
-        <header className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+        <header className="text-center mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
             Étkezési Napló
           </h1>
-          <p className="text-gray-600 text-lg">
+          <p className="text-gray-600 text-base sm:text-lg px-4">
             Kövesd nyomon az étkezéseidet és a tested reakcióit
           </p>
         </header>
 
         {!showForm && !showSettings ? (
-          <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="space-y-4 sm:space-y-6">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center w-full">
               <Button
                 onClick={() => setShowForm(true)}
                 size="lg"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 sm:px-6 text-sm sm:text-base w-full flex-1"
                 disabled={loading}
               >
-                <Plus className="w-5 h-5 mr-2" />
+                <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                 Új Bejegyzés Hozzáadása
-              </Button>
-              <Button
-                onClick={handleExport}
-                variant="outline"
-                size="lg"
-                className="px-6 py-3"
-                disabled={entries.length === 0}
-              >
-                <Download className="w-5 h-5 mr-2" />
-                Exportálás CSV-be
               </Button>
               <Button
                 onClick={() => setShowSettings(true)}
                 variant="outline"
                 size="lg"
-                className="px-6 py-3"
+                className="px-4 py-3 sm:px-6 text-sm sm:text-base w-full flex-1"
               >
-                <Cloud className="w-5 h-5 mr-2" />
+                <Cloud className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                 Google Sheets
               </Button>
+              <Button
+                onClick={handleExport}
+                variant="outline"
+                size="lg"
+                className="px-4 py-3 sm:px-6 text-sm sm:text-base w-full flex-1"
+                disabled={entries.length === 0}
+              >
+                <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                Exportálás CSV-be
+              </Button>
+              <style jsx global>{`
+                @media (max-width: 640px) {
+                  .flex-col > button {
+                    width: 100% !important;
+                    min-width: 0 !important;
+                    max-width: 100% !important;
+                  }
+                }
+              `}</style>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
               <Card>
-                <CardHeader className="text-center">
-                  <CardTitle className="text-2xl font-bold text-blue-600">
+                <CardHeader className="text-center pb-3">
+                  <CardTitle className="text-xl sm:text-2xl font-bold text-blue-600">
                     {entries.length}
                   </CardTitle>
-                  <CardDescription>Összes Bejegyzés</CardDescription>
-                </CardHeader>
-              </Card>
-              <Card>
-                <CardHeader className="text-center">
-                  <CardTitle className="text-2xl font-bold text-red-600">
-                    {entries.filter((e) => e.hasComplaints).length}
-                  </CardTitle>
-                  <CardDescription>
-                    Panaszokkal Járó Bejegyzések
+                  <CardDescription className="text-sm sm:text-base">
+                    Összes Bejegyzés
                   </CardDescription>
                 </CardHeader>
               </Card>
               <Card>
-                <CardHeader className="text-center">
-                  <CardTitle className="text-2xl font-bold text-green-600">
+                <CardHeader className="text-center pb-3">
+                  <CardTitle className="text-xl sm:text-2xl font-bold text-red-600">
+                    {entries.filter((e) => e.hasComplaints).length}
+                  </CardTitle>
+                  <CardDescription className="text-sm sm:text-base">
+                    Panaszokkal Járó Bejegyzések
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+              <Card className="sm:col-span-2 lg:col-span-1">
+                <CardHeader className="text-center pb-3">
+                  <CardTitle className="text-xl sm:text-2xl font-bold text-green-600">
                     {entries.filter((e) => !e.hasComplaints).length}
                   </CardTitle>
-                  <CardDescription>Panaszmentes Bejegyzések</CardDescription>
+                  <CardDescription className="text-sm sm:text-base">
+                    Panaszmentes Bejegyzések
+                  </CardDescription>
                 </CardHeader>
               </Card>
             </div>
@@ -244,16 +257,20 @@ export default function Home() {
             />
           </div>
         ) : showSettings ? (
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-4xl mx-auto px-2 sm:px-4">
             <GoogleSheetsSettings entries={entries} onSync={handleSync} />
-            <div className="mt-6 text-center">
-              <Button onClick={() => setShowSettings(false)} variant="outline">
+            <div className="mt-4 sm:mt-6 text-center">
+              <Button
+                onClick={() => setShowSettings(false)}
+                variant="outline"
+                className="w-full sm:w-auto"
+              >
                 Vissza
               </Button>
             </div>
           </div>
         ) : (
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-4xl mx-auto px-2 sm:px-4">
             <FoodEntryForm
               entry={editingEntry}
               onSubmit={handleFormSubmit}

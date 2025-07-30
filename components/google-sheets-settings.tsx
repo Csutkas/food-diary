@@ -170,34 +170,41 @@ export function GoogleSheetsSettings({
   };
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Settings className="w-5 h-5" />
+    <Card className="w-full max-w-4xl mx-auto">
+      <CardHeader className="px-4 sm:px-6">
+        <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+          <Settings className="w-4 h-4 sm:w-5 sm:h-5" />
           Google Sheets Integráció
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-sm sm:text-base">
           Szinkronizáld az étkezési naplódat egy Google Sheets táblázattal
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-4 sm:space-y-6 px-4 sm:px-6">
         <Tabs defaultValue="auto" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="auto">Automatikus Szinkronizálás</TabsTrigger>
-            <TabsTrigger value="manual">Manuális Exportálás</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2 h-auto">
+            <TabsTrigger value="auto" className="text-xs sm:text-sm p-2 sm:p-3">
+              Automatikus Szinkronizálás
+            </TabsTrigger>
+            <TabsTrigger
+              value="manual"
+              className="text-xs sm:text-sm p-2 sm:p-3"
+            >
+              Manuális Exportálás
+            </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="auto" className="space-y-6">
-            <div className="flex items-center justify-between">
+          <TabsContent value="auto" className="space-y-4 sm:space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
               <div className="space-y-1">
-                <Label htmlFor="enable-sheets">
+                <Label htmlFor="enable-sheets" className="text-sm sm:text-base">
                   Google Sheets Szinkronizálás
                 </Label>
-                <p className="text-sm text-gray-500">
+                <p className="text-xs sm:text-sm text-gray-500">
                   Automatikusan mentés Google Drive-ba (API kulcs szükséges)
                 </p>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 self-start sm:self-auto">
                 {getStatusBadge()}
                 <Switch
                   id="enable-sheets"
@@ -210,7 +217,10 @@ export function GoogleSheetsSettings({
             {isEnabled && (
               <>
                 <div className="space-y-2">
-                  <Label htmlFor="spreadsheet-id">
+                  <Label
+                    htmlFor="spreadsheet-id"
+                    className="text-sm sm:text-base"
+                  >
                     Google Sheets URL vagy ID
                   </Label>
                   <Input
@@ -218,15 +228,16 @@ export function GoogleSheetsSettings({
                     placeholder="Illeszd be a Google Sheets URL-t vagy az ID-t"
                     value={spreadsheetId}
                     onChange={handleUrlPaste}
+                    className="text-sm sm:text-base"
                   />
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-gray-500 break-all">
                     Példa:
                     https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
                   </p>
                 </div>
 
                 <Alert>
-                  <AlertDescription>
+                  <AlertDescription className="text-xs sm:text-sm">
                     <strong>Fontos:</strong> Az automatikus szinkronizáláshoz
                     szükséges a Google Sheets API beállítása.
                     <br />
@@ -236,14 +247,17 @@ export function GoogleSheetsSettings({
 
                 {error && (
                   <Alert variant="destructive">
-                    <AlertDescription>
+                    <AlertDescription className="text-xs sm:text-sm">
                       <strong>Hiba:</strong> {error}
                     </AlertDescription>
                   </Alert>
                 )}
 
-                <div className="flex gap-2">
-                  <Button onClick={handleSave} className="flex-1">
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <Button
+                    onClick={handleSave}
+                    className="flex-1 text-sm sm:text-base"
+                  >
                     Beállítások Mentése
                   </Button>
 
@@ -252,10 +266,12 @@ export function GoogleSheetsSettings({
                       onClick={handleSync}
                       variant="outline"
                       disabled={loading}
-                      className="flex items-center gap-2"
+                      className="flex items-center gap-2 text-sm sm:text-base"
                     >
                       <RotateCcw
-                        className={`w-4 h-4 ${loading ? "animate-spin" : ""}`}
+                        className={`w-3 h-3 sm:w-4 sm:h-4 ${
+                          loading ? "animate-spin" : ""
+                        }`}
                       />
                       Szinkronizálás
                     </Button>
@@ -263,7 +279,7 @@ export function GoogleSheetsSettings({
                 </div>
 
                 {lastSync && (
-                  <p className="text-sm text-gray-500 text-center">
+                  <p className="text-xs sm:text-sm text-gray-500 text-center">
                     Utolsó szinkronizálás: {lastSync}
                   </p>
                 )}
@@ -271,28 +287,35 @@ export function GoogleSheetsSettings({
             )}
           </TabsContent>
 
-          <TabsContent value="manual" className="space-y-6">
+          <TabsContent value="manual" className="space-y-4 sm:space-y-6">
             <div className="space-y-4">
               <div>
-                <h4 className="font-medium mb-2">Egyszerű Exportálás</h4>
-                <p className="text-sm text-gray-500 mb-4">
+                <h4 className="font-medium mb-2 text-sm sm:text-base">
+                  Egyszerű Exportálás
+                </h4>
+                <p className="text-xs sm:text-sm text-gray-500 mb-4">
                   Exportáld az adataidat CSV formátumban, majd importáld Google
                   Sheets-be.
                 </p>
 
-                <Button onClick={handleExportForSheets} className="w-full">
-                  <FileText className="w-4 h-4 mr-2" />
+                <Button
+                  onClick={handleExportForSheets}
+                  className="w-full text-sm sm:text-base"
+                >
+                  <FileText className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
                   CSV Exportálás Google Sheets-hez
                 </Button>
               </div>
 
               {entries.length > 0 && (
                 <div className="space-y-2">
-                  <Label>Adatok Másolása</Label>
+                  <Label className="text-sm sm:text-base">
+                    Adatok Másolása
+                  </Label>
                   <Textarea
                     value={csvData}
                     readOnly
-                    className="min-h-[100px] text-xs"
+                    className="min-h-[100px] text-xs sm:text-sm resize-none"
                     placeholder="CSV adatok jelennek meg itt..."
                   />
                   <Button
