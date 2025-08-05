@@ -48,47 +48,20 @@ export function EntryList({
   const hasMore = limit ? sortedEntries.length > limit : false;
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    // More SSR-friendly formatting
-    const days = [
-      "Vasárnap",
-      "Hétfő",
-      "Kedd",
-      "Szerda",
-      "Csütörtök",
-      "Péntek",
-      "Szombat",
-    ];
-    const months = [
-      "január",
-      "február",
-      "március",
-      "április",
-      "május",
-      "június",
-      "július",
-      "augusztus",
-      "szeptember",
-      "október",
-      "november",
-      "december",
-    ];
-
-    const day = days[date.getDay()];
-    const month = months[date.getMonth()];
-    const dayNum = date.getDate();
-    const year = date.getFullYear();
-
-    return `${year}. ${month} ${dayNum}., ${day}`;
+    return new Date(dateString).toLocaleDateString("hu-HU", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      weekday: "long",
+    });
   };
 
   const formatTime = (time: string) => {
-    // More SSR-friendly time formatting
-    const [hours, minutes] = time.split(":");
-    const hour24 = parseInt(hours, 10);
-    const hour12 = hour24 === 0 ? 12 : hour24 > 12 ? hour24 - 12 : hour24;
-    const ampm = hour24 >= 12 ? "PM" : "AM";
-    return `${hour12}:${minutes} ${ampm}`;
+    return new Date(`2000-01-01T${time}`).toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
   };
 
   const getMealTypeColor = (mealType: string) => {

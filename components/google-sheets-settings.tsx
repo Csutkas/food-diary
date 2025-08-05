@@ -47,6 +47,9 @@ export function GoogleSheetsSettings({
   const { loading, error, loadEntries, syncWithSheets } = useGoogleSheets();
 
   useEffect(() => {
+    // Check if we're in browser environment
+    if (typeof window === "undefined") return;
+
     // Load settings from localStorage
     const savedSpreadsheetId = localStorage.getItem(
       "googleSheetsSpreadsheetId"
@@ -102,8 +105,10 @@ export function GoogleSheetsSettings({
   };
 
   const handleSave = () => {
-    localStorage.setItem("googleSheetsSpreadsheetId", spreadsheetId);
-    localStorage.setItem("googleSheetsEnabled", isEnabled.toString());
+    if (typeof window !== "undefined") {
+      localStorage.setItem("googleSheetsSpreadsheetId", spreadsheetId);
+      localStorage.setItem("googleSheetsEnabled", isEnabled.toString());
+    }
 
     if (isEnabled && spreadsheetId) {
       checkConnection();
